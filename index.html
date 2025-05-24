@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firenze - La Culla del Rinascimento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI4MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSIjRkY3MDQzIi8+CjxjaXJjbGUgY3g9IjYwMCIgY3k9IjQwMCIgcj0iMzAwIiBmaWxsPSIjRkZBNTAwIiBvcGFjaXR5PSIwLjciLz4KPGNpcmNsZSBjeD0iMzAwIiBjeT0iMjAwIiByPSIxNTAiIGZpbGw9IiNGRkQ3MDAiIG9wYWNpdHk9IjAuNSIvPgo8Y2lyY2xlIGN4PSI5MDAiIGN5PSI2MDAiIHI9IjIwMCIgZmlsbD0iI0ZGRDcwMCIgb3BhY2l0eT0iMC42Ii8+Cjwvc3ZnPgo=');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-flag {
+            display: inline-block;
+            font-size: 2rem;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+            margin-top: 2rem;
+        }
+
+        .section:nth-child(even) {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section:nth-child(odd) {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out forwards;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(231, 76, 60, 0.1), rgba(243, 156, 18, 0.1));
+            border-radius: 15px;
+        }
+
+        .card:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(odd) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .card h3 {
+            color: #e74c3c;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #e74c3c, #f39c12);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e74c3c;
+        }
+
+        .itinerary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .curiosity {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .curiosity:hover {
+            transform: scale(1);
+        }
+
+        .phrases {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-emoji:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-emoji:nth-child(2) { top: 60%; right: 15%; animation-delay: 1s; }
+        .floating-emoji:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.2rem; }
+            .section h2 { font-size: 2rem; }
+            .nav-content { flex-direction: column; align-items: center; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-emoji">🏛️</div>
+    <div class="floating-emoji">🎨</div>
+    <div class="floating-emoji">🍷</div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="#ubicacion">📍 Ubicación</a>
+            <a href="#historia">🏛️ Historia</a>
+            <a href="#monumentos">🎨 Arte</a>
+            <a href="#cultura">🍷 Cultura</a>
+            <a href="#itinerario">🚶‍♂️ Itinerario</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🏛️ FIRENZE</h1>
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: #f39c12;">LA CULLA DEL RINASCIMENTO</h2>
+            <div style="background: rgba(255,255,255,0.9); color: #2c3e50; padding: 2rem; border-radius: 15px; margin: 2rem auto; max-width: 500px;">
+                <h3 style="color: #e74c3c; font-size: 1.5rem; margin-bottom: 1rem;">Racconta l'Italia</h3>
+                <p style="margin: 0.5rem 0; font-size: 1.1rem;"><strong>Presentado por:</strong> Amanda De Tone</p>
+                <p style="margin: 0.5rem 0; font-size: 1.1rem;"><strong>Classe di Italiano</strong></p>
+                <p style="margin: 0.5rem 0; font-size: 1.1rem;"><strong>24/05/2025</strong></p>
+            </div>
+            <div class="hero-flag">🇮🇹</div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Ubicación -->
+        <section id="ubicacion" class="section">
+            <h2>📍 Dove si trova Firenze</h2>
+            <div class="card">
+                <div class="card-image" style="background-image: url('duomo1.jpg');">
+                </div>
+                <h3>🗺️ Ubicación Geográfica</h3>
+                <div class="grid">
+                    <div>
+                        <p><strong>Regione:</strong> <span class="highlight">Toscana</span></p>
+                        <p><strong>Provincia:</strong> Firenze (Metropolitana)</p>
+                        <p><strong>Abitanti:</strong> Circa 380.000</p>
+                    </div>
+                    <div>
+                        <p><strong>Posizione:</strong> Centro Italia, lungo il fiume Arno</p>
+                        <p><strong>Distanza da Roma:</strong> 230 km nord</p>
+                        <p><strong>UNESCO:</strong> Patrimonio dell'Umanità dal 1982</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Historia -->
+        <section id="historia" class="section">
+            <h2>🏛️ Storia di Firenze</h2>
+            <div class="card">
+                <h3>📜 Un viaggio nel tempo</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4><strong>59 a.C.</strong> - Fondata dai Romani</h4>
+                        <p>Chiamata "Florentia" - la città fiorente</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4><strong>Medioevo</strong> - Centro Commerciale</h4>
+                        <p>Importante centro di commercio e finanza europea</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4><strong>XIV-XVI sec.</strong> - Rinascimento</h4>
+                        <p>Capitale culturale europea, patria degli artisti più famosi</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4><strong>Famiglia de' Medici</strong> - Mecenati</h4>
+                        <p>Protettori dell'arte e della cultura, creatori di ricchezza</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4><strong>1865-1871</strong> - Capitale d'Italia</h4>
+                        <p>Prima che Roma diventasse la capitale definitiva</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monumentos -->
+        <section id="monumentos" class="section">
+            <h2>🎨 Monumenti e Arte</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-image" style="background-image: url('duomo.jpg');">
+                    </div>
+                    <h3>🏛️ Il Duomo</h3>
+                    <p><strong>Cattedrale di Santa Maria del Fiore</strong></p>
+                    <ul>
+                        <li>Cupola del <span class="highlight">Brunelleschi</span> (1436)</li>
+                        <li>Campanile di <span class="highlight">Giotto</span></li>
+                        <li>Battistero di San Giovanni</li>
+                        <li>Simbolo di Firenze nel mondo</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-image" style="background-image: url('ponteVecchio.jpeg');">
+                    </div>
+                    <h3>🌉 Ponte Vecchio</h3>
+                    <p><strong>Il ponte più famoso di Firenze</strong></p>
+                    <ul>
+                        <li>Costruito nel <span class="highlight">XIV secolo</span></li>
+                        <li>Famoso per le botteghe di orafi</li>
+                        <li>Unico ponte non distrutto nella WWII</li>
+                        <li>Vista romantica sull'Arno</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-image" style="background-image: url('galleriaDegliUffizi.jpg');">
+                    </div>
+                    <h3>🎨 Galleria degli Uffizi</h3>
+                    <p><strong>Museo d'arte più famoso al mondo</strong></p>
+                    <ul>
+                        <li><span class="highlight">"La Nascita di Venere"</span> di Botticelli</li>
+                        <li>Opere di Leonardo, Raffaello, Caravaggio</li>
+                        <li>10 milioni di visitatori all'anno</li>
+                        <li>Prenotazione obbligatoria</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-image" style="background-image: url('galleriaDell\'Accademia.jpg');">
+                    </div>
+                    <h3>🗿 Galleria dell'Accademia</h3>
+                    <p><strong>Casa del David di Michelangelo</strong></p>
+                    <ul>
+                        <li>Il <span class="highlight">"David"</span> originale (1504)</li>
+                        <li>Alto 5,17 metri</li>
+                        <li>Altre sculture di Michelangelo</li>
+                        <li>Simbolo dell'arte rinascimentale</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cultura -->
+        <section id="cultura" class="section">
+            <h2>🍷 Cultura e Tradizioni</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-image" style="background-image: url('gastronomiaToscana.jpg');">
+                    </div>
+                    <h3>🍽️ Gastronomia Toscana</h3>
+                    <ul>
+                        <li><span class="highlight">Bistecca alla fiorentina</span> - T-bone gigante</li>
+                        <li><span class="highlight">Ribollita</span> - Zuppa toscana tradizionale</li>
+                        <li><span class="highlight">Vino Chianti</span> - Il più famoso della Toscana</li>
+                        <li><span class="highlight">Gelato artigianale</span> - Inventato a Firenze!</li>
+                        <li><span class="highlight">Pici all'aglione</span> - Pasta tipica</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-image" style="background-image: url('artigianatoFiorentino.jpg');">
+                    </div>
+                    <h3>🎨 Artigianato Fiorentino</h3>
+                    <ul>
+                        <li><span class="highlight">Lavorazione del cuoio</span> - Borse e scarpe</li>
+                        <li><span class="highlight">Gioielleria</span> - Ponte Vecchio e Oltrarno</li>
+                        <li><span class="highlight">Carta marmorizzata</span> - Arte antica</li>
+                        <li><span class="highlight">Mosaico fiorentino</span> - Pietre dure</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Itinerario -->
+        <section id="itinerario" class="section">
+            <h2>🚶‍♂️ Un Giorno a Firenze</h2>
+            <div class="card">
+                <h3>⏰ Itinerario Perfetto</h3>
+                <div class="itinerary">
+                    <h4>🌅 MATTINA (9:00-12:30)</h4>
+                    <ol>
+                        <li><strong>Piazza del Duomo</strong> - Cattedrale e Cupola del Brunelleschi</li>
+                        <li><strong>Battistero di San Giovanni</strong> - Porte del Paradiso</li>
+                        <li><strong>Campanile di Giotto</strong> - Vista panoramica (414 scalini)</li>
+                        <li><strong>Caffè storico</strong> - Pausa in Piazza della Signoria</li>
+                    </ol>
+                </div>
+                <div class="itinerary">
+                    <h4>🌞 POMERIGGIO (14:00-18:00)</h4>
+                    <ol>
+                        <li><strong>Galleria degli Uffizi</strong> - Arte rinascimentale (prenotazione!)</li>
+                        <li><strong>Ponte Vecchio</strong> - Shopping e foto romantiche</li>
+                        <li><strong>Palazzo Pitti</strong> - Residenza dei Medici</li>
+                        <li><strong>Giardini di Boboli</strong> - Relax nel verde</li>
+                    </ol>
+                </div>
+                <div class="itinerary">
+                    <h4>🌙 SERA (19:00-22:00)</h4>
+                    <ol>
+                        <li><strong>Aperitivo in Oltrarno</strong> - Quartiere artistico</li>
+                        <li><strong>Cena tradizionale</strong> - Bistecca alla fiorentina</li>
+                        <li><strong>Passeggiata notturna</strong> - Firenze illuminata</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Curiosità -->
+        <section class="section">
+            <h2>🔍 Curiosità su Firenze</h2>
+            <div class="card">
+                <h3>💡 Lo sapevi che...</h3>
+                <div class="curiosity">
+                    <strong>💰 Milionario:</strong> Il termine nasce a Firenze con la famiglia de' Medici!
+                </div>
+                <div class="curiosity">
+                    <strong>🗣️ Italiano moderno:</strong> È basato sul dialetto fiorentino di Dante
+                </div>
+                <div class="curiosity">
+                    <strong>🍦 Gelato:</strong> Inventato a Firenze nel XVI secolo da Bernardo Buontalenti
+                </div>
+                <div class="curiosity">
+                    <strong>📚 Dante Alighieri:</strong> Il padre della lingua italiana era fiorentino
+                </div>
+                <div class="curiosity">
+                    <strong>🏛️ Piano nobile:</strong> I palazzi hanno finestre più grandi al primo piano
+                </div>
+            </div>
+        </section>
+
+        <!-- Frasi Utili -->
+        <section class="section">
+            <h2>🗣️ Frasi Utili per Visitare</h2>
+            <div class="card">
+                <h3>💬 Conversazione Pratica</h3>
+                <div class="phrases">
+                    <strong>"Scusi, dov'è il Duomo?"</strong><br>
+                    <em>Disculpe, ¿dónde está el Duomo?</em>
+                </div>
+                <div class="phrases">
+                    <strong>"Quanto costa il biglietto per gli Uffizi?"</strong><br>
+                    <em>¿Cuánto cuesta la entrada a los Uffizi?</em>
+                </div>
+                <div class="phrases">
+                    <strong>"Vorrei prenotare un tavolo per due"</strong><br>
+                    <em>Quisiera reservar una mesa para dos</em>
+                </div>
+                <div class="phrases">
+                    <strong>"Che cosa mi consiglia?"</strong><br>
+                    <em>¿Qué me recomienda?</em>
+                </div>
+                <div class="phrases">
+                    <strong>"Dov'è la fermata dell'autobus?"</strong><br>
+                    <em>¿Dónde está la parada del autobús?</em>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusión -->
+        <section class="section">
+            <div class="conclusion">
+                <h2>💭 Perché Visitare Firenze</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+                    <strong>Arte e cultura</strong> incomparabili • <strong>Storia viva</strong> in ogni angolo • 
+                    <strong>Gastronomia</strong> autentica • <strong>Atmosfera romantica</strong>
+                </p>
+                <div style="background: rgba(255,255,255,0.2); padding: 2rem; border-radius: 15px; margin: 2rem 0;">
+                    <h3 style="margin-bottom: 1rem;">🎯 Il mio sogno:</h3>
+                    <p style="font-style: italic; font-size: 1.2rem;">
+                        "Spero di visitare Firenze presto per vedere dal vivo le opere di Michelangelo 
+                        e passeggiare sui ponti sull'Arno al tramonto."
+                    </p>
+                </div>
+                <h2 style="margin-top: 3rem; font-size: 3rem;">🇮🇹 Grazie per l'attenzione!</h2>
+                <p style="font-size: 1.5rem; margin-top: 1rem; font-style: italic;">
+                    "Firenze non è solo una città, è un'emozione"
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255,255,255,0.98)';
+                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.background = 'rgba(255,255,255,0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

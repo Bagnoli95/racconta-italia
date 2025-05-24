@@ -89,6 +89,21 @@
             transition: all 0.3s ease;
         }
 
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
         .nav-content {
             display: flex;
             justify-content: center;
@@ -108,6 +123,108 @@
             background: #e74c3c;
             color: white;
             transform: translateY(-2px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(231, 76, 60, 0.2);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 2rem;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(44, 62, 80, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background: #e74c3c;
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+        }
+
+        .music-control.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4); }
+            50% { box-shadow: 0 5px 30px rgba(231, 76, 60, 0.8); }
+            100% { box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4); }
         }
 
         /* Sections */
@@ -299,7 +416,26 @@
             .hero-content h1 { font-size: 2.5rem; }
             .hero-content p { font-size: 1.2rem; }
             .section h2 { font-size: 2rem; }
-            .nav-content { flex-direction: column; align-items: center; gap: 1rem; }
+            
+            .nav-content { 
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .music-control {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -310,12 +446,23 @@
 
     <!-- Navigation -->
     <nav class="nav">
-        <div class="nav-content">
-            <a href="#ubicacion">📍 Ubicación</a>
-            <a href="#historia">🏛️ Historia</a>
-            <a href="#monumentos">🎨 Arte</a>
-            <a href="#cultura">🍷 Cultura</a>
-            <a href="#itinerario">🚶‍♂️ Itinerario</a>
+        <div class="nav-container">
+            <div class="nav-logo">🇮🇹 FIRENZE</div>
+            <div class="nav-content">
+                <a href="#ubicacion">📍 Ubicación</a>
+                <a href="#historia">🏛️ Historia</a>
+                <a href="#monumentos">🎨 Arte</a>
+                <a href="#cultura">🍷 Cultura</a>
+                <a href="#itinerario">🚶‍♂️ Itinerario</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="#ubicacion" onclick="closeMobileMenu()">📍 Ubicación</a>
+                <a href="#historia" onclick="closeMobileMenu()">🏛️ Historia</a>
+                <a href="#monumentos" onclick="closeMobileMenu()">🎨 Arte</a>
+                <a href="#cultura" onclick="closeMobileMenu()">🍷 Cultura</a>
+                <a href="#itinerario" onclick="closeMobileMenu()">🚶‍♂️ Itinerario</a>
+            </div>
         </div>
     </nav>
 
@@ -339,7 +486,7 @@
         <section id="ubicacion" class="section">
             <h2>📍 Dove si trova Firenze</h2>
             <div class="card">
-                <div class="card-image" style="background-image: url('duomo1.jpg');">
+                <div class="card-image" style="background-image: url('duomo.jpg');">
                 </div>
                 <h3>🗺️ Ubicación Geográfica</h3>
                 <div class="grid">
@@ -459,7 +606,7 @@
                     </ul>
                 </div>
                 <div class="card">
-                    <div class="card-image" style="background-image: url('artigianatoFiorentino.jpg');">
+                    <div class="card-image" style="background-image: url('artigianatoFiorentino');">
                     </div>
                     <h3>🎨 Artigianato Fiorentino</h3>
                     <ul>
@@ -580,9 +727,68 @@
         </section>
     </div>
 
+    <!-- Music Control -->
+    <button class="music-control" onclick="toggleMusic()" id="musicBtn">🎵</button>
+    
+    <!-- Hidden Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+        <source src="musica.ogg" type="audio/ogg">
+        <source src="musica.wav" type="audio/wav">
+        Tu navegador no soporta el elemento audio.
+    </audio>
+
     <script>
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            mobileMenu.classList.toggle('active');
+            menuBtn.innerHTML = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            mobileMenu.classList.remove('active');
+            menuBtn.innerHTML = '☰';
+        }
+
+        // Music Control Functions
+        let isPlaying = false;
+        const audio = document.getElementById('backgroundMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.innerHTML = '🎵';
+                musicBtn.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    musicBtn.innerHTML = '🎶';
+                    musicBtn.classList.add('playing');
+                    isPlaying = true;
+                }).catch(error => {
+                    console.log('Error al reproducir música:', error);
+                    alert('No se pudo reproducir la música. Asegúrate de que el archivo existe.');
+                });
+            }
+        }
+
+        // Auto-start music when user interacts with page
+        document.addEventListener('click', function() {
+            if (!isPlaying) {
+                // Don't auto-start, let user decide
+            }
+        }, { once: true });
+
+    
         // Smooth scrolling for navigation
-        document.querySelectorAll('.nav a').forEach(anchor => {
+        document.querySelectorAll('.nav a, .mobile-menu a').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
@@ -594,6 +800,17 @@
                     });
                 }
             });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('.nav');
+            
+            if (!nav.contains(event.target) && mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            }
         });
 
         // Add scroll effect to navigation
